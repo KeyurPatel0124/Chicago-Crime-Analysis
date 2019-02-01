@@ -1,8 +1,8 @@
 /*Topic:CHICAGO CRIME ANALYSIS*/
-/*TEAM MEMBERS: Tanish Kotyankar
-              Keyur Patel
-              Kyle Eifler
-              Priyanka Batavia
+/*TEAM MEMBERS:
+		Tanish Kotyankar
+           	Keyur Patel
+              	Kyle Eifler
 Course: BIA-652 Multivariate Data Analysis
 Term: Fall 2018*/
 
@@ -12,7 +12,7 @@ Term: Fall 2018*/
 
 
 /*
-COOKD= Cook’s  influence statistic
+COOKD= Cookâ€™s  influence statistic
 COVRATIO=standard influence of observation on covariance of betas
 DFFITS=standard influence of observation on predicted value
 H=leverage, 
@@ -27,8 +27,8 @@ STDR=standard error of the residual
 STUDENT=studentized residuals, which are the residuals divided by their standard errors
 UCL= upper bound of a % confidence interval for an individual prediction
 UCLM= upper bound of a % confidence interval for the expected value (mean) of the dependent variable
-* Cook’s  statistic lies above the horizontal reference line at value 4/n *; 
-* DFFITS’ statistic is greater in magnitude than 2sqrt(n/p);
+* Cookâ€™s  statistic lies above the horizontal reference line at value 4/n *; 
+* DFFITSâ€™ statistic is greater in magnitude than 2sqrt(n/p);
 * Durbin watson around 2 *;
 * VIF over 10 multicolinear **;
 
