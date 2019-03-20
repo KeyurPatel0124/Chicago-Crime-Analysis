@@ -91,9 +91,22 @@ proc freq data = Clean order=freq;
 	Tables Primary_type/ out= FreqCount outexpect sparse;
  weight District;
 Run;
-/*Create Dummy variables for Primary_Type,District, Arrest and Domestic*/
+
+
+/*Creating Dummy variables for District_1-Dictrict_25*/
+DATA Data_Dummy;
+  set Data_major_offenses;
+ 
+  ARRAY dummys {*} 3.  District_1 - District_25;
+  DO i=1 TO 25;			      
+    dummys(i) = 0;
+  END;
+  dummys(District) = 1;		
+RUN;
+
+/*Create Dummy variables for Primary_Type, Arrest and Domestic*/
 data data_dummy;
-	set Data_major_offenses;
+	set data_dummy;
 	if Primary_type = 'ASSAULT' then Assault_D = 1;
 	else Assault_D = 0;
 
@@ -121,82 +134,9 @@ data data_dummy;
 	if Domestic = "true" then Domestic_D=1;
 	else Domestic_D=0;
 
-	if District = 1 then District_1=1;
-	else District_1=0;
-
-	if District = 2 then District_2=1;
-	else District_2=0;
-
-	if District = 3 then District_3=1;
-	else District_3=0;
-
-	if District = 4 then District_4=1;
-	else District_4=0;
-
-	if District = 5 then District_5=1;
-	else District_5=0;
-
-	if District = 6 then District_6=1;
-	else District_6=0;
-
-	if District = 7 then District_7=1;
-	else District_7=0;
-
-	if District = 8 then District_8=1;
-	else District_9=0;
-
-	if District = 9 then District_9=1;
-	else District_9=0;
-
-	if District = 10 then District_10=1;
-	else District_10=0;
-
-	if District = 11 then District_11=1;
-	else District_11=0;
-
-	if District = 12 then District_12=1;
-	else District_12=0;
-
-	if District = 13 then District_13=1;
-	else District_13=0;
-
-	if District = 14 then District_14=1;
-	else District_14=0;
-
-	if District = 15 then District_15=1;
-	else District_15=0;
-
-	if District = 16 then District_16=1;
-	else District_16=0;
-
-	if District = 17 then District_17=1;
-	else District_17=0;
-
-	if District = 18 then District_18=1;
-	else District_18=0;
-
-	if District = 19 then District_19=1;
-	else District_19=0;
-
-	if District = 20 then District_20=1;
-	else District_20=0;
-
-	if District = 22 then District_22=1;
-	else District_22=0;
-
-	if District = 23 then District_23=1;
-	else District_23=0;
-
-	if District = 24 then District_24=1;
-	else District_24=0;
-
-	if District = 25 then District_25=1;
-	else District_25=0;
-
-	if District = 21 then District_21 =1;
-	else District_21 = 0;
-
 	run;
+	
+	
 /*Clean District for null values
 data data_dummy;
 	set data_dummy;
