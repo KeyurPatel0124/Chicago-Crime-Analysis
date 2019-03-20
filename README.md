@@ -25,4 +25,5 @@ run;
 proc freq data=cd;
 	tables CD_D;
 run;
+
 ```
