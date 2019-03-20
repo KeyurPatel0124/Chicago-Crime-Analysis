@@ -10,20 +10,20 @@ Following is the code for down sampling the dataset in SAS:
 
 **Sample Code**
 
-  ```
-  /*Down-Sampling Data for Criminal Damage*/
-  Title "Sampling and Logistic for Criminal Damage Train to Test";
-  proc sort data =data_dummy out=data_dummy1;
-	by CD_D;
-  run;
-  proc freq data=data_dummy;
-	Tables CD_D;
-  run;
-  proc surveyselect data = data_dummy1 out = cd method = srs sampsize=(695147,695147) seed = 9876;
-	strata CD_D;
-  run;
-  proc freq data=cd;
-	tables CD_D;
-  run;
+    ```
+    /*Down-Sampling Data for Criminal Damage*/
+    Title "Sampling and Logistic for Criminal Damage Train to Test";
+    proc sort data =data_dummy out=data_dummy1;
+  	by CD_D;
+    run;
+    proc freq data=data_dummy;
+  	Tables CD_D;
+    run;
+    proc surveyselect data = data_dummy1 out = cd method = srs sampsize=(695147,695147) seed = 9876;
+  	strata CD_D;
+    run;
+    proc freq data=cd;
+  	tables CD_D;
+    run;
 
-  ```
+    ```
