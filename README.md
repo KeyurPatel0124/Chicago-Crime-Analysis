@@ -1,1 +1,1 @@
-An analysis of various types of crimes happening in 25 districts of Chicago
+For our coursework of Multivariate Analysis, our Professor Khasha Dehnad suggested that we analyze crimes in United States. After looking at state government websites we found a reported crimes dataset on chicago.gov.
