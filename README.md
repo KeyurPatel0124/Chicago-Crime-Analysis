@@ -16,6 +16,7 @@ District(Target Variable) :- Categorical value which corresponds to the police d
 **Data Pre-Processing**
 
 We subset part of the data and analyze it on Excel. We notice that there are some null values in district, Location, X_coordinate, Y_coordinate, Ward, Community_area and District 21 & 31 have less than 200 values which make it useless for this problem. We remove these null values in SAS
+
     ```
     data Clean;
     	set TestTime;
@@ -26,6 +27,7 @@ We subset part of the data and analyze it on Excel. We notice that there are som
     ```
 
   The Date variable also has the time part in it. We split that variable to separate Date and Time.
+  
       ```
       data TestTime;
       set Data;
