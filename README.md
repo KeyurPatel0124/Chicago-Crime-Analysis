@@ -6,6 +6,7 @@ Influential variables includes
     Arrest :- A boolean value for which an Arrest is made for the reported crimes
     Domestic :- A boolean value for if the reported crime is a domestic offense or not
     District(Target Variable) :- Categorical value which corresponds to the police district in Chicago
+
     ```
     data TestTime;
     set Data;
