@@ -27,12 +27,21 @@ We subset part of the data and analyze it on Excel. We notice that there are som
     ```
 
   The Date variable also has the time part in it. We split that variable to separate Date and Time.
-  
+
       ```
       data TestTime;
-      set Data;
-      Date_r=datepart(Date);
-      Time_r=timepart(Date);
-      format Date_r yymmdd10. Time_r time20.;
+        set Data;
+        Date_r=datepart(Date);
+        Time_r=timepart(Date);
+        format Date_r yymmdd10. Time_r time20.;
       run;
       ```
+
+   We then subset the dataset for Major Offenses. We picked the most recurring crimes.
+
+   ```
+   data Data_major_offenses;
+   	set Clean;
+	  if Primary_type = 'ASSAULT' OR Primary_type ='NARCOTICS OR Primary_type ='ROBBERY' OR Primary_type ='THEFT' OR Primary_type ='MOTOR VEHICLE THEFT' OR Primary_type ='CRIMINAL DAMAGE' OR Primary_type = 'HOMICIDE';
+   run;
+   ```
