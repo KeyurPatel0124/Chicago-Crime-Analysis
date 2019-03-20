@@ -11,7 +11,6 @@ Following is the code for down sampling the dataset in SAS:
 **Sample Code**
 
     ```
-    /*Down-Sampling Data for Criminal Damage*/
     Title "Sampling and Logistic for Criminal Damage Train to Test";
     proc sort data =data_dummy out=data_dummy1;
   	by CD_D;
@@ -25,5 +24,4 @@ Following is the code for down sampling the dataset in SAS:
     proc freq data=cd;
   	tables CD_D;
     run;
-
     ```
