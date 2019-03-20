@@ -45,3 +45,51 @@ We subset part of the data and analyze it on Excel. We notice that there are som
 	  if Primary_type = 'ASSAULT' OR Primary_type ='NARCOTICS OR Primary_type ='ROBBERY' OR Primary_type ='THEFT' OR Primary_type ='MOTOR VEHICLE THEFT' OR Primary_type ='CRIMINAL DAMAGE' OR Primary_type = 'HOMICIDE';
    run;
    ```
+
+   To work with categorical data we need to convert them into dummy variables.
+    
+   ```
+   /*Creating Dummy variables for District_1-Dictrict_25*/
+   DATA Data_Dummy;
+     set Data_major_offenses;
+
+     ARRAY dummys {*} 3.  District_1 - District_25;
+     DO i=1 TO 25;			      
+       dummys(i) = 0;
+     END;
+     dummys(District) = 1;		
+   RUN;
+
+   /*Create Dummy variables for Primary_Type, Arrest and Domestic*/
+   data data_dummy;
+   	set data_dummy;
+   	if Primary_type = 'ASSAULT' then Assault_D = 1;
+   	else Assault_D = 0;
+
+   	if Primary_type = 'NARCOTICS' then Narcotics_D = 1;
+   	else Narcotics_D = 0;
+
+   	if Primary_type = 'THEFT' then Theft_D = 1;
+   	else Theft_D = 0;
+
+   	if Primary_type = 'HOMICIDE' then Homicide_D = 1;
+   	else Homicide_D = 0;
+
+   	if Primary_type = 'CRIMINAL DAMAGE' then CD_D = 1;
+   	else CD_D = 0;
+
+   	if Primary_type = 'ROBBERY' then Robbery_D = 1;
+   	else Robbery_D = 0;
+
+   	if Primary_type = 'MOTOR VEHICLE THEFT' then MVT_D = 1;
+   	else MVT_D = 0;
+
+   	if Arrest = "true" then Arrest_D=1;
+   	else Arrest_D=0;
+
+   	if Domestic = "true" then Domestic_D=1;
+   	else Domestic_D=0;
+
+   	run;
+
+   ```
