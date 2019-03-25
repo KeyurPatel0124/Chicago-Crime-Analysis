@@ -111,4 +111,18 @@ To counter this, we need to apply sampling technique. We used Downsampling in SA
   proc surveyselect data = data_dummy1 out = cd method = srs sampsize=(695147,695147) seed = 9876;
   	strata CD_D;
   run;
+
+  /*Output of Downsampling*/
+  proc freq data=cd;
+  	tables CD_D;
+  run;
   ```
+
+**Output**
+
+  | CD_D | Frequency | Percent | CumulativeFrequency | CumulativePercent |
+|------|-----------|---------|---------------------|-------------------|
+| 0    | 695147    | 50.00   | 695147              | 50.00             |
+| 1    | 695147    | 50.00   | 1390294             | 100.00            |
+
+From the output we can see that the subset has been successfully downsampled and we can go on to apply Logistic Regression.
