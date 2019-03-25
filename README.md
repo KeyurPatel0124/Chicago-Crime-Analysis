@@ -47,7 +47,7 @@ We subset part of the data and analyze it on Excel. We notice that there are som
    ```
 
    To work with categorical data we need to convert them into dummy variables.
-    
+
    ```
    /*Creating Dummy variables for District_1-Dictrict_25*/
    DATA Data_Dummy;
@@ -93,3 +93,22 @@ We subset part of the data and analyze it on Excel. We notice that there are som
    	run;
 
    ```
+We then moved onto analyzing the data. Since the dataset is huge and we decided to work on subsets of the data to the full dataset, we had a doubt that this would be an imbalanced class problem.
+
+To confirm our suspicion we run **proc freq** on Criminal Damage
+
+| CD_D | Frequency | Percent | CumulativeFrequency | CumulativePercent |
+|------|-----------|---------|---------------------|-------------------|
+| 0    | 2805450   | 80.14   | 2805450             | 80.14             |
+| 1    | 695147    | 19.86   | 3500597             | 100.00            |
+
+From the 80-20 ratio we can confirm our suspicions.
+
+Application of any machine learning algorithms will give us an output with very high accuracy, which we know is biased towards 0.
+To counter this, we need to apply sampling technique. We used Downsampling in SAS.
+
+  ```
+  proc surveyselect data = data_dummy1 out = cd method = srs sampsize=(695147,695147) seed = 9876;
+  	strata CD_D;
+  run;
+  ```
