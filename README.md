@@ -178,4 +178,30 @@ We split our sampled dataset into training and testing, with a split of 75-25. W
 | Arrest_D                                  | 1  | 1  | -1.8644  | 0.00629       | 87960.2646     | <.0001     |
 | Domestic_D                                | 1  | 1  | 0.5647   | 0.00921       | 3757.6669      | <.0001     |
 
-From the **Pr>ChiSq** values we can see that all the variables selected for the model are influential. This gave us hope that we were on the right path and our model should give us a good output. 
+From the **Pr>ChiSq** values we can see that all the variables selected for the model are influential. This gave us hope that we were on the right path and our model should give us a good output.
+
+We then score the model against the test dataset and create a confusion matrix to check the accuracy of our model.
+
+  ```
+  /*Scoring the Criminal Damage model with test dataset*/
+  proc logistic inmodel=sasuser.CD_Model;
+     score data=test_cd out=Score_CD fitstat;
+  run;
+  /*Confusion Matrix for Criminal Damage*/
+  proc freq data=score_cd;
+     table F_CD_D*I_CD_D/nopercent nocol nocum out=CellCounts_cd;
+  run;
+
+  ```
+
+**Output**
+
+| F_CD_D(From: CD_D) | I_CD_D(Into: CD_D) |        |        |
+|--------------------|--------------------|--------|--------|
+|                    | 0                  | 1      | Total  |
+| 0                  | 141441             | 207255 | 348696 |
+| 1                  | 39099              | 307690 | 346789 |
+| Total              | 180540             | 514945 | 695485 |
+|                    | 25.96              | 74.04  | 100    |
+
+The confusion matrix gives us an accuracy of **64.637%**.
