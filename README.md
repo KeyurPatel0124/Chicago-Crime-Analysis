@@ -126,3 +126,56 @@ To counter this, we need to apply sampling technique. We used Downsampling in SA
 | 1    | 695147    | 50.00   | 1390294             | 100.00            |
 
 From the output we can see that the subset has been successfully downsampled and we can go on to apply Logistic Regression.
+
+We split our sampled dataset into training and testing, with a split of 75-25. We then model Logistic Regression for Criminal Damage.
+
+  ```
+  /*Subset Testing and training dataset*/
+  data training_cd /*validation*/ test_cd;
+    set cd;
+    _n_=rand('uniform');
+    if _n_ le .75 then output training_cd;
+    else output test_cd;
+  run;
+
+  /*Logistic Regression for Criminal Damage*/
+  ods graphics on;
+  Title "Logistic Regression for Criminal Damage";
+  proc logistic data=training_cd plots=effect outmodel=sasuser.CD_Model;
+  	class CD_D(ref='0') District(ref='1') Arrest_D(ref='0') Domestic_D(ref='0')/param=ref ;
+  	model  CD_D= District Arrest_D Domestic_D;
+  	output out=CD_out pred=C;
+  quit;
+  ```
+
+**Output**
+
+| Analysis of Maximum Likelihood  Estimates |    |    |          |               |                |            |
+|:-----------------------------------------:|:--:|:--:|:--------:|:-------------:|:--------------:|:----------:|
+| Parameter                                 |    | DF | Estimate | StandardError | WaldChi-Square | Pr > ChiSq |
+| Intercept                                 |    | 1  | -0.7201  | 0.0123        | 3422.9869      | <.0001     |
+| District                                  | 2  | 1  | 0.8821   | 0.0158        | 3109.6847      | <.0001     |
+| District                                  | 3  | 1  | 1.1333   | 0.0156        | 5296.4252      | <.0001     |
+| District                                  | 4  | 1  | 1.2103   | 0.0150        | 6494.7987      | <.0001     |
+| District                                  | 5  | 1  | 1.2010   | 0.0159        | 5740.7155      | <.0001     |
+| District                                  | 6  | 1  | 0.9563   | 0.0152        | 3980.6153      | <.0001     |
+| District                                  | 7  | 1  | 1.1024   | 0.0152        | 5270.5673      | <.0001     |
+| District                                  | 8  | 1  | 1.3417   | 0.0145        | 8600.8085      | <.0001     |
+| District                                  | 9  | 1  | 1.2466   | 0.0154        | 6591.0456      | <.0001     |
+| District                                  | 10 | 1  | 1.0404   | 0.0160        | 4212.3552      | <.0001     |
+| District                                  | 11 | 1  | 0.7827   | 0.0152        | 2637.6068      | <.0001     |
+| District                                  | 12 | 1  | 0.8881   | 0.0152        | 3406.1857      | <.0001     |
+| District                                  | 14 | 1  | 0.9570   | 0.0158        | 3646.2335      | <.0001     |
+| District                                  | 15 | 1  | 0.8787   | 0.0164        | 2861.1953      | <.0001     |
+| District                                  | 16 | 1  | 1.3646   | 0.0164        | 6904.8120      | <.0001     |
+| District                                  | 17 | 1  | 1.2239   | 0.0168        | 5278.6337      | <.0001     |
+| District                                  | 18 | 1  | 0.3236   | 0.0161        | 402.3639       | <.0001     |
+| District                                  | 19 | 1  | 0.7937   | 0.0156        | 2587.7183      | <.0001     |
+| District                                  | 20 | 1  | 1.0785   | 0.0199        | 2928.9120      | <.0001     |
+| District                                  | 22 | 1  | 1.1382   | 0.0166        | 4686.0748      | <.0001     |
+| District                                  | 24 | 1  | 1.1738   | 0.0170        | 4785.6056      | <.0001     |
+| District                                  | 25 | 1  | 1.0882   | 0.0150        | 5242.4116      | <.0001     |
+| Arrest_D                                  | 1  | 1  | -1.8644  | 0.00629       | 87960.2646     | <.0001     |
+| Domestic_D                                | 1  | 1  | 0.5647   | 0.00921       | 3757.6669      | <.0001     |
+
+From the **Pr>ChiSq** values we can see that all the variables selected for the model are influential. This gave us hope that we were on the right path and our model should give us a good output. 
