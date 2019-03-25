@@ -197,11 +197,11 @@ We then score the model against the test dataset and create a confusion matrix t
 **Output**
 
 | F_CD_D(From: CD_D) | I_CD_D(Into: CD_D) |        |        |
-|--------------------|--------------------|--------|--------|
+|:------------------:|:------------------:|--------|--------|
 |                    | 0                  | 1      | Total  |
 | 0                  | 141441             | 207255 | 348696 |
 | 1                  | 39099              | 307690 | 346789 |
 | Total              | 180540             | 514945 | 695485 |
-|                    | 25.96              | 74.04  | 100    |
+|                    | 25.96%             | 74.04% | 100%   |
 
 The confusion matrix gives us an accuracy of **64.637%**.
