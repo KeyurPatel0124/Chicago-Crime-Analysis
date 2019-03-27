@@ -30,6 +30,9 @@ from imblearn.over_sampling import SMOTE
 from sklearn.metrics import precision_score
 from sklearn.model_selection import cross_val_score
 from sklearn.metrics import precision_score
+from sklearn.metrics import auc
+from sklearn.metrics import precision_recall_curve
+
 
 
 data = pd.read_csv("C:/Users/t4nis/Desktop/652/Datasets_Chicago/Data_dummy.csv")
@@ -61,6 +64,12 @@ pred = logistic.predict(x_test)
 print(accuracy_score(y_test,pred))
 print(confusion_matrix(y_test,pred))
 print(cross_val_score(logistic, x, y, scoring='accuracy', cv = 5).mean()*100)
+pred_log_prob = logistic.predict_proba(x_test)
+precision,recall, thresholds = precision_recall_curve(y_test,pred_log_prob[:,1]) 
+print("AUC Score for Logistic")
+auc_log_cd=auc(recall,precision)
+print("AUC Score for Logistic ",auc_log_cd)
+
 
 #RF
 rf = RandomForestClassifier()
@@ -68,7 +77,12 @@ RF_1 = rf.fit(x_train, y_train)
 pred_RF = RF_1.predict(x_test)
 print(accuracy_score(y_test, pred_RF))
 print(confusion_matrix(y_test, pred_RF))
-recall_score(y_test, pred_RF)
+#recall=recall_score(y_test, pred_RF)
+#precision=precision_score(y_test, pred_RF)
+pred_RF_prob = RF_1.predict_proba(x_test)
+precision,recall, thresholds = precision_recall_curve(y_test,pred_RF_prob[:,1]) 
+auc=auc(recall,precision)
+print(auc)
 
 
 
@@ -95,6 +109,16 @@ logistic_A = LogisticRegression().fit(x_train_A, y_train_A)
 pred_A = logistic_A.predict(x_test_A)
 print(accuracy_score(y_test_A,pred_A))
 print(confusion_matrix(y_test_A,pred_A))
+pred_log_prob_A = logistic.predict_proba(x_test)
+precision_A,recall_A, thresholds = precision_recall_curve(y_test,pred_log_prob_A[:,1]) 
+
+auc=auc(recall_A,precision_A)
+print("AUC Score for Logistic ",auc)
+
+
+
+
+
 
 
 #RF
