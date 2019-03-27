@@ -12,7 +12,6 @@ Created on Tue Dec  4 23:09:23 2018
 @author: t4nis
 """
 
-
 import pandas as pd
 import csv
 from sklearn.model_selection import train_test_split
@@ -65,10 +64,10 @@ print(accuracy_score(y_test,pred))
 print(confusion_matrix(y_test,pred))
 print(cross_val_score(logistic, x, y, scoring='accuracy', cv = 5).mean()*100)
 pred_log_prob = logistic.predict_proba(x_test)
-precision,recall, thresholds = precision_recall_curve(y_test,pred_log_prob[:,1]) 
+precision,recall, thresholds = precision_recall_curve(y_test,pred_log_prob[:,1])
 print("AUC Score for Logistic")
 auc_log_cd=auc(recall,precision)
-print("AUC Score for Logistic ",auc_log_cd)
+print("AUC Score for Logistic Regression for Criminal Damage ",auc_log_cd)
 
 
 #RF
@@ -80,9 +79,9 @@ print(confusion_matrix(y_test, pred_RF))
 #recall=recall_score(y_test, pred_RF)
 #precision=precision_score(y_test, pred_RF)
 pred_RF_prob = RF_1.predict_proba(x_test)
-precision,recall, thresholds = precision_recall_curve(y_test,pred_RF_prob[:,1]) 
+precision,recall, thresholds = precision_recall_curve(y_test,pred_RF_prob[:,1])
 auc=auc(recall,precision)
-print(auc)
+print("AUC Score for Random Forest for Criminal Damage ",auc)
 
 
 
@@ -109,16 +108,10 @@ logistic_A = LogisticRegression().fit(x_train_A, y_train_A)
 pred_A = logistic_A.predict(x_test_A)
 print(accuracy_score(y_test_A,pred_A))
 print(confusion_matrix(y_test_A,pred_A))
-pred_log_prob_A = logistic.predict_proba(x_test)
-precision_A,recall_A, thresholds = precision_recall_curve(y_test,pred_log_prob_A[:,1]) 
-
-auc=auc(recall_A,precision_A)
-print("AUC Score for Logistic ",auc)
-
-
-
-
-
+pred_log_prob_A = logistic.predict_proba(x_test_A)
+precision_A,recall_A, thresholds = precision_recall_curve(y_test_A,pred_log_prob_A[:,1])
+auc_log_A=auc(recall_A,precision_A)
+print("AUC Score for Logistic Regression for Assault ",auc_log_A)
 
 
 #RF
@@ -128,6 +121,10 @@ pred_RF_A = RF_1_A.predict(x_test_A)
 print(accuracy_score(y_test_A, pred_RF_A))
 print(confusion_matrix(y_test_A, pred_RF_A))
 recall_score(y_test_A, pred_RF_A)
+pred_RF_prob = RF_1.predict_proba(x_test_A)
+precision_rf_a,recall_rf_a, thresholds = precision_recall_curve(y_test_A,pred_RF_prob[:,1])
+auc_rf_a=auc(recall_rf_a,precision_rf_a)
+print("AUC Score for Random Forest for Assault ",auc_rf_a)
 
 
 
@@ -155,6 +152,11 @@ pred_N = logistic_N.predict(x_test_N)
 print(accuracy_score(y_test_N,pred_N))
 print(confusion_matrix(y_test_N,pred_N))
 print(cross_val_score(logistic_N, x_N, y_N, scoring='accuracy', cv = 5).mean()*100)
+pred_log_prob_n= logistic.predict_proba(x_test_N)
+precision_n,recall_n, thresholds = precision_recall_curve(y_test_N,pred_log_prob_n[:,1])
+auc_log_n=auc(recall_n,precision_n)
+print("AUC Score for Logistic Regression for Narcotics ",auc_log_n)
+
 
 #RF
 rf_N = RandomForestClassifier()
@@ -164,6 +166,10 @@ print(accuracy_score(y_test_N, pred_RF_N))
 print(confusion_matrix(y_test_N, pred_RF_N))
 recall_score(y_test_N, pred_RF_N)
 print(cross_val_score(rf_N, x_N, y_N, scoring='accuracy', cv = 3).mean()*100)
+pred_RF_prob_N = RF_1.predict_proba(x_test_N)
+precision_rf_n,recall_rf_n, thresholds = precision_recall_curve(y_test_N,pred_RF_prob_N[:,1])
+auc_rf_n=auc(recall_rf_n,precision_rf_n)
+print("AUC Score for Random Forest for Narcotics ",auc_rf_n)
 
 
 ########################################################Robbery_D##########################################################
@@ -191,6 +197,10 @@ logistic_R = LogisticRegression().fit(x_train_R, y_train_R)
 pred_R = logistic_R.predict(x_test_R)
 print(accuracy_score(y_test_R,pred_R))
 print(confusion_matrix(y_test_R,pred_R))
+pred_log_prob_R= logistic.predict_proba(x_test_R)
+precision_R,recall_R, thresholds = precision_recall_curve(y_test_R,pred_log_prob_R[:,1])
+auc_log_R=auc(recall_R,precision_R)
+print("AUC Score for Logistic Regression for ROBBERY ",auc_log_R)
 
 
 #RF
@@ -201,6 +211,10 @@ print(accuracy_score(y_test_R, pred_RF_R))
 print(confusion_matrix(y_test_R, pred_RF_R))
 recall_score(y_test_R, pred_RF_R)
 print(cross_val_score(rf_N, x, y, scoring='accuracy', cv = 5).mean()*100)
+pred_RF_prob_R = RF_1.predict_proba(x_test_R)
+precision_rf_R,recall_rf_R, thresholds = precision_recall_curve(y_test_R,pred_RF_prob_R[:,1])
+auc_rf_R=auc(recall_rf_R,precision_rf_R)
+print("AUC Score for Random Forest for ROBBERY ",auc_rf_R)
 
 
 
@@ -217,7 +231,7 @@ df_min_down_M = resample(df_min_M, replace=True, n_samples=3222482, random_state
 df_down_M=pd.concat([df_maj_M, df_min_down_M])
 print(df_down_M['MVT_D'].value_counts())
 #Split Dataset
-y_M=df_down_M.MVT_D 
+y_M=df_down_M.MVT_D
 x_M = df_down_M.drop('MVT_D', axis=1)
 x_train_M,x_test_M,y_train_M,y_test_M=train_test_split(x_M,y_M,test_size=0.25,random_state=123)
 
@@ -228,6 +242,10 @@ logistic_M = LogisticRegression().fit(x_train_M, y_train_M)
 pred_M = logistic_M.predict(x_test_M)
 print(accuracy_score(y_test_M,pred_M))
 print(confusion_matrix(y_test_M,pred_M))
+pred_log_prob_M= logistic.predict_proba(x_test_M)
+precision_M,recall_M, thresholds = precision_recall_curve(y_test_M,pred_log_prob_M[:,1])
+auc_log_M=auc(recall_M,precision_M)
+print("AUC Score for Logistic Regression for Motor Vehicle Damage ",auc_log_M)
 
 
 #RF
@@ -237,6 +255,10 @@ pred_RF_M = RF_1_M.predict(x_test_M)
 print(accuracy_score(y_test_M, pred_RF_M))
 print(confusion_matrix(y_test_M, pred_RF_M))
 recall_score(y_test_M, pred_RF_M)
+pred_RF_prob_M = RF_1.predict_proba(x_test_M)
+precision_rf_M,recall_rf_M, thresholds = precision_recall_curve(y_test_M,pred_RF_prob_M[:,1])
+auc_rf_M=auc(recall_rf_M,precision_rf_M)
+print("AUC Score for Random Forest for ROBBERY ",auc_rf_M)
 
 #########################################Homicide_D####################################################
 
@@ -246,7 +268,7 @@ print(df_Hom['Homicide_D'].value_counts())
 
 
 #Split Dataset
-y_H=df_Hom.Homicide_D 
+y_H=df_Hom.Homicide_D
 x_H = df_Hom.drop('Homicide_D', axis=1)
 x_train_H,x_test_H,y_train_H,y_test_H=train_test_split(x_H,y_H,test_size=0.25,random_state=123)
 
@@ -273,7 +295,7 @@ recall_score(y_test_H, pred_RF_H)
 df_theft= df[['Theft_D', 'Arrest_D', 'Domestic_D', 'District_1', 'District_2', 'District_3', 'District_4', 'District_5', 'District_6', 'District_7', 'District_8', 'District_9',  'District_10', 'District_11', 'District_12', 'District_13', 'District_14', 'District_15', 'District_16', 'District_17', 'District_18', 'District_19', 'District_20', 'District_22', 'District_23', 'District_24', 'District_25']]
 print(df_theft['Theft_D'].value_counts())
 
-y_t=df_theft.Theft_D 
+y_t=df_theft.Theft_D
 x_t = df_theft.drop('Theft_D', axis=1)
 x_train_t,x_test_t,y_train_t,y_test_t=train_test_split(x_t,y_t,test_size=0.25,random_state=123)
 
