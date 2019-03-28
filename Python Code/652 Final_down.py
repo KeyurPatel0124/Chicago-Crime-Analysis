@@ -1,16 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Dec  4 23:30:47 2018
 
-@author: t4nis
-"""
-
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Dec  4 23:09:23 2018
-
-@author: t4nis
-"""
 
 import pandas as pd
 import csv
