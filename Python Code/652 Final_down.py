@@ -145,7 +145,7 @@ x_t = df_theft.drop('Theft_D', axis=1)
 x_train_t,x_test_t,y_train_t,y_test_t=train_test_split(x_t,y_t,test_size=0.25,random_state=123)
 
 
-
+#Function for Logistic Regression
 def logisticfn(x_train, y_train, x_test, y_test):
     logistic = LogisticRegression().fit(x_train, y_train)
     probs_l = logistic.predict_proba(x_test)
@@ -157,6 +157,8 @@ def logisticfn(x_train, y_train, x_test, y_test):
     pyplot.plot(recall, precision, marker='.')
     pyplot.show()
     
+    
+#Function for Random Forest
 def randomFC(x_train, y_train, x_test, y_test):
     rf = RandomForestClassifier()
     RF_1 = rf.fit(x_train, y_train)
