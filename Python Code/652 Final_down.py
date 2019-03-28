@@ -124,8 +124,6 @@ x_train_M,x_test_M,y_train_M,y_test_M=train_test_split(x_M,y_M,test_size=0.25,ra
 df_Hom= df[['Homicide_D', 'Arrest_D', 'Domestic_D', 'District_1', 'District_2', 'District_3', 'District_4', 'District_5', 'District_6', 'District_7', 'District_8', 'District_9',  'District_10', 'District_11', 'District_12', 'District_13', 'District_14', 'District_15', 'District_16', 'District_17', 'District_18', 'District_19', 'District_20', 'District_22', 'District_23', 'District_24', 'District_25']]
 print(df_Hom['Homicide_D'].value_counts())
 
-
-
 #Split Dataset
 y_H=df_Hom.Homicide_D
 x_H = df_Hom.drop('Homicide_D', axis=1)
