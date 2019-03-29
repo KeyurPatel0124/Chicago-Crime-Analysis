@@ -15,7 +15,7 @@ Term: Fall 2018*/
 COOKD= Cook’s  influence statistic
 COVRATIO=standard influence of observation on covariance of betas
 DFFITS=standard influence of observation on predicted value
-H=leverage, 
+H=leverage,
 LCL=lower bound of a % confidence interval for an individual prediction. This includes the variance of the error, as well as the variance of the parameter estimates.
 LCLM=lower bound of a % confidence interval for the expected value (mean) of the dependent variable
 PREDICTED | P= predicted values
@@ -27,7 +27,7 @@ STDR=standard error of the residual
 STUDENT=studentized residuals, which are the residuals divided by their standard errors
 UCL= upper bound of a % confidence interval for an individual prediction
 UCLM= upper bound of a % confidence interval for the expected value (mean) of the dependent variable
-* Cook’s  statistic lies above the horizontal reference line at value 4/n *; 
+* Cook’s  statistic lies above the horizontal reference line at value 4/n *;
 * DFFITS’ statistic is greater in magnitude than 2sqrt(n/p);
 * Durbin watson around 2 *;
 * VIF over 10 multicolinear **;
@@ -64,7 +64,7 @@ run;
 /*Removing Missing variables*/
 data Clean;
 	set TestTime;
-	if district = . or Location = '' or X_coordinate = . or Y_coordinate = . 
+	if district = . or Location = '' or X_coordinate = . or Y_coordinate = .
 	or Ward = . or Community_area = . or District = 21 or District = 31 then delete;
 	run;
 /*Calculating frequency for each type of crime*/
@@ -76,7 +76,7 @@ Run;
 /*Subset for offenses based on Primary_Type*/
 data Data_major_offenses;
 	set Clean;
-	if Primary_type = 'ASSAULT' OR Primary_type ='NARCOTICS' OR Primary_type ='ROBBERY' 
+	if Primary_type = 'ASSAULT' OR Primary_type ='NARCOTICS' OR Primary_type ='ROBBERY'
     OR Primary_type ='THEFT' OR Primary_type ='MOTOR VEHICLE THEFT' OR Primary_type ='CRIMINAL DAMAGE' or Primary_type = 'HOMICIDE';
 run;
 
@@ -96,12 +96,12 @@ Run;
 /*Creating Dummy variables for District_1-Dictrict_25*/
 DATA Data_Dummy;
   set Data_major_offenses;
- 
+
   ARRAY dummys {*} 3.  District_1 - District_25;
-  DO i=1 TO 25;			      
+  DO i=1 TO 25;
     dummys(i) = 0;
   END;
-  dummys(District) = 1;		
+  dummys(District) = 1;
 RUN;
 
 /*Create Dummy variables for Primary_Type, Arrest and Domestic*/
@@ -135,8 +135,8 @@ data data_dummy;
 	else Domestic_D=0;
 
 	run;
-	
-	
+
+
 /*Clean District for null values
 data data_dummy;
 	set data_dummy;
@@ -162,16 +162,16 @@ run;
 data training_cd /*validation*/ test_cd;
   set cd;
   _n_=rand('uniform');
-  if _n_ le .5 then output training_cd;
+  if _n_ le .75 then output training_cd;
   else output test_cd;
 run;
 /*Logistic Regression for Criminal Damage*/
 ods graphics on;
 Title "Logistic Regression for Criminal Damage";
-proc logistic data=training_cd plots=effect outmodel=sasuser.CD_Model; 
+proc logistic data=training_cd plots=effect outmodel=sasuser.CD_Model;
 	class CD_D(ref='0') District(ref='1') Arrest_D(ref='0') Domestic_D(ref='0')/param=ref ;
 	model  CD_D= District Arrest_D Domestic_D;
-	output out=CD_out pred=C; 
+	output out=CD_out pred=C;
 quit;
 /*Scoring the Criminal Damage model with test dataset*/
 proc logistic inmodel=sasuser.CD_Model;
@@ -213,10 +213,10 @@ run;
 /*Logistic Regression for Narcotics*/
 ods graphics on;
 Title "Logistic Regression for Narcotics";
-proc logistic data=training_narc plots=effect outmodel=sasuser.narc_Model; 
+proc logistic data=training_narc plots=effect outmodel=sasuser.narc_Model;
 	class Narcotics_D(ref='0') District(ref='1') Arrest_D(ref='0') Domestic_D(ref='0') /param=ref ;
 	model  Narcotics_D= District Arrest_D Domestic_D;
-	output out=narc_out pred=C; 
+	output out=narc_out pred=C;
 quit;
 /*Scoring the Narcotics model with test dataset*/
 proc logistic inmodel=sasuser.narc_Model;
@@ -237,7 +237,7 @@ proc means data=CellCounts_narc mean;
     freq count;
     var Match;
 run;
-	
+
 /*Down-Sampling Data for Robbery*/
 Title "Sampling and Logistic for Robbery Train to Test";
 proc sort data =data_dummy out=data_dummy3;
@@ -261,10 +261,10 @@ run;
 /*Logistic Regression for Robbery*/
 ods graphics on;
 Title "Logistic Regression for Robbery";
-proc logistic data=training_rob plots=effect outmodel=sasuser.rob_Model; 
+proc logistic data=training_rob plots=effect outmodel=sasuser.rob_Model;
 	class Robbery_D(ref='0') District(ref='1') Arrest_D(ref='0') Domestic_D(ref='0') /param=ref ;
 	model  Robbery_D= District Arrest_D Domestic_D;
-	output out=rob_out pred=C; 
+	output out=rob_out pred=C;
 quit;
 /*Scoring Robbery model with test dataset*/
 proc logistic inmodel=sasuser.rob_Model;
@@ -309,10 +309,10 @@ run;
 /*Logistic Regression for Criminal Motor Vehicle Theft*/
 ods graphics on;
 Title "Logistic Regression for Motor Vehicle Theft";
-proc logistic data=training_mvt plots=effect outmodel=sasuser.mvt_Model; 
+proc logistic data=training_mvt plots=effect outmodel=sasuser.mvt_Model;
 	class MVT_D(ref='0') District(ref='1') Arrest_D(ref='0') Domestic_D(ref='0') /param=ref ;
 	model  MVT_D = District Arrest_D Domestic_D;
-	output out=mvt_out pred=C; 
+	output out=mvt_out pred=C;
 quit;
 /*Scoring Motor Vehicle Theft model with test dataset*/
 proc logistic inmodel=sasuser.mvt_Model;
@@ -357,10 +357,10 @@ run;
 /*Logistic Regression for Assault*/
 ods graphics on;
 Title "Logistic Regression for Assault";
-proc logistic data=training_ass plots=effect outmodel=sasuser.ass_Model; 
+proc logistic data=training_ass plots=effect outmodel=sasuser.ass_Model;
 	class Assault_D(ref='0') District(ref='1') Arrest_D(ref='0') Domestic_D(ref='0') /param=ref ;
 	model  Assault_D = District Arrest_D Domestic_D;
-	output out=ass_out pred=C; 
+	output out=ass_out pred=C;
 quit;
 /*Scoring Assault model with test dataset*/
 proc logistic inmodel=sasuser.ass_Model;
@@ -393,10 +393,10 @@ run;
 
 ods graphics on;
 Title "Logistic Regression for Theft Train to test";
-proc logistic data=training plots=effect outmodel=sasuser.theft_Model; 
+proc logistic data=training plots=effect outmodel=sasuser.theft_Model;
 	class Theft_D(ref='0') District(ref='1') Arrest_D(ref='0') Domestic_D(ref='0') /param=ref ;
 	model  Theft_D = District Arrest_D Domestic_D;
-	output out=theft_out pred=C; 
+	output out=theft_out pred=C;
 quit;
 /*Scoring Theft model with test dataset*/
 proc logistic inmodel=sasuser.theft_Model;
@@ -425,10 +425,10 @@ run;
 /*Training model on Test and scoring with Train*/
 ods graphics on;
 Title "Logistic Regression for Criminal Damage Test to Train";
-proc logistic data=test_cd plots=effect outmodel=sasuser.CD_Model; 
+proc logistic data=test_cd plots=effect outmodel=sasuser.CD_Model;
 	class CD_D(ref='0') District(ref='1') Arrest_D(ref='0') Domestic_D(ref='0') /param=ref ;
 	model  CD_D= District Arrest_D Domestic_D;
-	output out=CD_out pred=C; 
+	output out=CD_out pred=C;
 quit;
 
 proc logistic inmodel=sasuser.CD_Model;
@@ -451,10 +451,10 @@ run;
 /*Logistic Regression for Narcotics*/
 ods graphics on;
 Title "Logistic Regression for Narcotics Test to Train";
-proc logistic data=test_narc plots=effect outmodel=sasuser.narc_Model; 
+proc logistic data=test_narc plots=effect outmodel=sasuser.narc_Model;
 	class Narcotics_D(ref='0') District(ref='1') Arrest_D(ref='0') Domestic_D(ref='0') /param=ref ;
 	model  Narcotics_D= District Arrest_D Domestic_D;
-	output out=narc_out pred=C; 
+	output out=narc_out pred=C;
 quit;
 /*Scoring Narcotics model with train dataset*/
 proc logistic inmodel=sasuser.narc_Model;
@@ -475,14 +475,14 @@ proc means data=CellCounts_narc mean;
     freq count;
     var Match;
 run;
-	
+
 /*Logistic Regression for Robbery*/
 ods graphics on;
 Title "Logistic Regression for Robbery Test to Train";
-proc logistic data=test_rob plots=effect outmodel=sasuser.rob_Model; 
+proc logistic data=test_rob plots=effect outmodel=sasuser.rob_Model;
 	class Robbery_D(ref='0') District(ref='1') Arrest_D(ref='0') Domestic_D(ref='0') /param=ref ;
 	model  Robbery_D= District Arrest_D Domestic_D;
-	output out=rob_out pred=C; 
+	output out=rob_out pred=C;
 quit;
 /*Scoring Robbery model with train dataset*/
 proc logistic inmodel=sasuser.rob_Model;
@@ -506,10 +506,10 @@ run;
 /*Logistic Regression for Motor Vehivle Theft*/
 ods graphics on;
 Title "Logistic Regression for Motor Vehicle Theft Test to Train";
-proc logistic data=test_mvt plots=effect outmodel=sasuser.mvt_Model; 
+proc logistic data=test_mvt plots=effect outmodel=sasuser.mvt_Model;
 	class MVT_D(ref='0') District(ref='1') Arrest_D(ref='0') Domestic_D(ref='0') /param=ref ;
 	model  MVT_D = District Arrest_D Domestic_D;
-	output out=mvt_out pred=C; 
+	output out=mvt_out pred=C;
 quit;
 /*Scoring Motor Vehicle Theft model with train dataset*/
 proc logistic inmodel=sasuser.mvt_Model;
@@ -533,10 +533,10 @@ run;
 /*Logistic Regression for Assault*/
 ods graphics on;
 Title "Logistic Regression for Assault Test to Train";
-proc logistic data=test_ass plots=effect outmodel=sasuser.ass_Model; 
+proc logistic data=test_ass plots=effect outmodel=sasuser.ass_Model;
 	class Assault_D(ref='0') District(ref='1') Arrest_D(ref='0') Domestic_D(ref='0') /param=ref ;
 	model  Assault_D = District Arrest_D Domestic_D;
-	output out=ass_out pred=C; 
+	output out=ass_out pred=C;
 quit;
 /*Scoring Assault model with train dataset*/
 proc logistic inmodel=sasuser.ass_Model;
@@ -557,7 +557,7 @@ proc means data=CellCounts_ass mean;
 	freq count;
     var Match;
 run;
- 
+
 Title "Theft Test to Train";
 /*Subset Testing and training dataset*/
 data training_theft /*validation*/ test_theft;
@@ -569,10 +569,10 @@ run;
 /*Logistic Regression for Theft*/
 ods graphics on;
 Title "Logistic Regression for Theft Test to Train";
-proc logistic data=test_theft plots=effect outmodel=sasuser.theft_Model; 
+proc logistic data=test_theft plots=effect outmodel=sasuser.theft_Model;
 	class theft_D(ref='0') District(ref='1') Arrest_D(ref='0') Domestic_D(ref='0') /param=ref ;
 	model  theft_D = District Arrest_D Domestic_D;
-	output out=theft_out pred=C; 
+	output out=theft_out pred=C;
 quit;
 /*Scoring Theft model with train dataset*/
 proc logistic inmodel=sasuser.theft_Model;
@@ -593,4 +593,3 @@ proc means data=CellCounts_theft mean;
 	freq count;
     var Match;
 run;
- 
