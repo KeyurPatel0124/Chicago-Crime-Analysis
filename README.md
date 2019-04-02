@@ -71,6 +71,8 @@ logistic(x_train,y_train,x_test, y_test,0)
 | 0|283590     | 416948     |
 |1|79265|622922
 
+The Precision vs Recall Curve for Logistic Regression can be found [here](https://github.com/KeyurPatel0124/Chicago-Crime-Analysis/blob/master/Precision%2520vs%2520Recall%2520curve%2520for%2520Logistic%2520Regression%2520for%2520Criminal%2520Damage.png).
+
 **AUC Score for Logistic Regression for Criminal Damage is 0.626**
 
 The following code shows Random Forest Classifier with Confusion matrix, precision vs recall curve and AUC curve for Primary_Type = Criminal Damage.
@@ -100,5 +102,6 @@ RandomForest(x_train,y_train,x_test, y_test,0)
 |Actual|0     |1       |  
 | 0|  279219  | 421319  |
 |1|  72189 |  629998   |
+The Precision vs Recall Curve for Random Forest can be found [here](https://github.com/KeyurPatel0124/Chicago-Crime-Analysis/blob/master/Precision%20vs%20Recall%20curve%20for%20Random%20Forest%20for%20Criminal%20Damage.png).
 
 **AUC Score for Random Forest for Criminal Damage is 0.6333**
