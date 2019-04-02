@@ -90,6 +90,10 @@ def RandomForest(x_train,y_train,x_test,y_test,x):
 ```
 
 **Results for Random Forest**
+```
+RandomForest(x_train,y_train,x_test, y_test,0)
+```
+**Results**
 
 |     |       Predicted     |
 | :------------- | :------------- |
