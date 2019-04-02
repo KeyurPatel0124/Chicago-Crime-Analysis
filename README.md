@@ -102,6 +102,7 @@ RandomForest(x_train,y_train,x_test, y_test,0)
 |Actual|0     |1       |  
 | 0|  279219  | 421319  |
 |1|  72189 |  629998   |
+
 The Precision vs Recall Curve for Random Forest can be found [here](https://github.com/KeyurPatel0124/Chicago-Crime-Analysis/blob/master/Precision%20vs%20Recall%20curve%20for%20Random%20Forest%20for%20Criminal%20Damage.png).
 
 **AUC Score for Random Forest for Criminal Damage is 0.6333**
