@@ -108,6 +108,7 @@ plt.plot(precision,recall,label='Logistic Regression AUC')
 #plt.plot(recall)
 plt.plot(precision_rf,recall_rf, label='Random Forest AUC')
 plt.legend(loc='Best',prop={'size': 20})
+plt.rcParams.update({'font.size': 25})
 #plt.plot(recall_rf)
 #######################################################NARCOTICS_D################################################
 
