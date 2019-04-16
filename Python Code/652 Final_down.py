@@ -20,7 +20,12 @@ from sklearn.metrics import auc
 from sklearn.metrics import precision_recall_curve
 import matplotlib.pyplot as pyplot
 from sklearn.metrics import roc_auc_score
+import matplotlib.pyplot as plt
 
+precision=[]
+recall=[]
+precision_rf=[]
+recall=[]
 
 data = pd.read_csv("C:/Users/t4nis/Desktop/652/Datasets_Chicago/Data_dummy.csv")
 df=pd.DataFrame(data)
@@ -33,6 +38,7 @@ def logistic(x_train,y_train,x_test,y_test,x):
     print(confusion_matrix(y_test,pred))
     #print(cross_val_score(logistic, x, y, scoring='accuracy', cv = 5).mean()*100)
     pred_log_prob = logistic.predict_proba(x_test)
+    global precision,recall
     precision,recall, thresholds = precision_recall_curve(y_test,pred_log_prob[:,1])
     print("AUC Score for Logistic Regression for {} is {}".format(df_names[x],(auc(recall,precision))))
     pyplot.plot([0, 1], [0.5, 0.5], linestyle='--')
@@ -48,7 +54,8 @@ def RandomForest(x_train,y_train,x_test,y_test,x):
     #recall=recall_score(y_test, pred_RF)
     #precision=precision_score(y_test, pred_RF)
     pred_RF_prob = RF_1.predict_proba(x_test)
-    precision,recall, thresholds = precision_recall_curve(y_test,pred_RF_prob[:,1])
+    global precision_rf,recall_rf
+    precision_rf,recall_rf, thresholds = precision_recall_curve(y_test,pred_RF_prob[:,1])
     print("AUC Score for Random Forest for {} is {}".format(df_names[x],(auc(recall,precision))))
     pyplot.plot([0, 1], [0.5, 0.5], linestyle='--')
     pyplot.plot(recall, precision, marker='.')
@@ -96,6 +103,12 @@ x_train_A,x_test_A,y_train_A,y_test_A=train_test_split(x_A,y_A,test_size=0.25,ra
 logistic(x_train_A,y_train_A,x_test_A, y_test_A,1)
 RandomForest(x_train_A,y_train_A,x_test_A, y_test_A,1)
 
+plt.figure(figsize=(16,8))
+plt.plot(precision,recall,label='Logistic Regression AUC')
+#plt.plot(recall)
+plt.plot(precision_rf,recall_rf, label='Random Forest AUC')
+plt.legend(loc='Best',prop={'size': 20})
+#plt.plot(recall_rf)
 #######################################################NARCOTICS_D################################################
 
 #keep required Variables
