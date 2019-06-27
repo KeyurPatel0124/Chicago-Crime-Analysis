@@ -258,6 +258,8 @@ Result for Assault is
 | 0 | 627077 | 153724 |
 | 1 | 454672 | 326842 |
 
+The AUC curve can be seen [here](https://github.com/KeyurPatel0124/Chicago-Crime-Analysis/blob/Tanish/Results/Logistic%2520Assault.png)
+
 AUC score for Logistic Regression is **0.67976**
 
 The following code shows the function defined for Random forest
@@ -279,3 +281,14 @@ def RandomForest(x_train,y_train,x_test,y_test,x):
   pyplot.show()
 
 ```
+
+Result for Assault is
+
+|   | 0      | 1      |
+|---|--------|--------|
+| 0 | 541913 | 238888 |
+| 1 | 357039 | 424475 |
+
+The AUC curve can be seen [here](https://github.com/KeyurPatel0124/Chicago-Crime-Analysis/blob/Tanish/Results/Random%2520Forest%2520Assault.png)
+
+AUC score for Random Forest is **0.69577**
