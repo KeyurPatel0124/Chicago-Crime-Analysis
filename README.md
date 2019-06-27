@@ -205,3 +205,77 @@ We then score the model against the test dataset and create a confusion matrix t
 |                    | 25.96%             | 74.04% | 100%   |
 
 The confusion matrix gives us an accuracy of **64.637%**.
+
+We then apply the same code to each and every Primary_type. We have posted the results on this Word file.
+
+One of the most influential results that we found was for that of Narcotics. Since Chicago's Police Department crack down on Narcotics has seen them make numerous arrests, it also significantly improves the accuracy of our model.
+
+| F_Narcotics_D(From: | I_Narcotics_D(Into: Narcotics_D) |        |        |
+|---------------------|----------------------------------|--------|--------|
+| Narcotics_D)        |                                  |        |        |
+|                     | 0                                | 1      | Total  |
+| 0                   | 283426                           | 34011  | 317437 |
+| 1                   | 2020                             | 314765 | 316785 |
+| Total               | 285446                           | 348776 | 634222 |
+|                     | 45.01                            | 54.99  | 100.00 |
+
+Which gave us an accuracy of **94.31%**
+
+The result gave us a hint that the model may be biased towards just positives and considering that this was an imbalanced classification problem accuracy wouldn't provide us with a good measure. After some research we concluded that AUC would perhaps act as the best measure.
+
+To test our skills and make it easier for us, we decided to use Python for this part of the problem. Just as before we sampled the dataset.
+
+**Sampling the dataset in Python for Primary_Type = Criminal Damage**
+```
+#Keeping the required variables for Criminal Damage
+df_cd = df[['CD_D', 'Arrest_D', 'Domestic_D', 'District_1', 'District_2', 'District_3', 'District_4', 'District_5', 'District_6', 'District_7', 'District_8', 'District_9',  'District_10', 'District_11', 'District_12', 'District_13', 'District_14', 'District_15', 'District_16', 'District_17', 'District_18', 'District_19', 'District_20', 'District_22', 'District_23', 'District_24', 'District_25']]
+
+```
+We split the dataset into train and test and define two functions,
+  1. Logistic Regression with auc
+  2. Random forest with auc
+
+The following code shows the function defined for Logistic Regression
+```
+#Logistic Regression
+def logistic(x_train,y_train,x_test,y_test,x):
+    logistic = LogisticRegression().fit(x_train, y_train)
+    pred = logistic.predict(x_test)
+    print(confusion_matrix(y_test,pred))
+    pred_log_prob = logistic.predict_proba(x_test)
+    precision,recall, thresholds = precision_recall_curve(y_test,pred_log_prob[:,1])
+    print("AUC Score for Logistic Regression for {} is {}".format(df_names[x],(auc(recall,precision))))
+    pyplot.plot([0, 1], [0.5, 0.5], linestyle='--')
+    pyplot.plot(recall, precision, marker='.')
+    pyplot.show()
+
+```
+
+Result for Assault is
+
+|   | 0      | 1      |
+|---|--------|--------|
+| 0 | 627077 | 153724 |
+| 1 | 454672 | 326842 |
+
+AUC score for Logistic Regression is **0.67976**
+
+The following code shows the function defined for Random forest
+
+```
+def RandomForest(x_train,y_train,x_test,y_test,x):
+  rf = RandomForestClassifier()
+  RF_1 = rf.fit(x_train, y_train)
+  pred_RF = RF_1.predict(x_test)
+  #print(accuracy_score(y_test, pred_RF))
+  print(confusion_matrix(y_test, pred_RF))
+  #recall=recall_score(y_test, pred_RF)
+  #precision=precision_score(y_test, pred_RF)
+  pred_RF_prob = RF_1.predict_proba(x_test)
+  precision,recall, thresholds = precision_recall_curve(y_test,pred_RF_prob[:,1])
+  print("AUC Score for Random Forest for {} is {}".format(df_names[x],(auc(recall,precision))))
+  pyplot.plot([0, 1], [0.5, 0.5], linestyle='--')
+  pyplot.plot(recall, precision, marker='.')
+  pyplot.show()
+
+```
